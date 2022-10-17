@@ -1,12 +1,13 @@
 import filedate
 import os
+import time
 
 
 
-os.popen('cp test.txt test.txt1')
-os.popen('rm test.txt')
-os.popen('mv test.txt1 test.txt')
-
+os.popen('cp test.txt test.txt1;rm test.txt;mv test.txt1 test.txt')
+#os.popen('rm test.txt')
+#os.popen('mv test.txt1 test.txt')
+time.sleep(2)
 a = 'test.txt'
 a_file = filedate.File(a)
 
