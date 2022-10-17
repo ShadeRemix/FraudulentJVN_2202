@@ -1,13 +1,14 @@
 import filedate
 import os
 import time
+import subprocess
 
 
 
-os.popen('cp test.txt test.txt1;rm test.txt;mv test.txt1 test.txt')
-#os.popen('rm test.txt')
-#os.popen('mv test.txt1 test.txt')
-time.sleep(2)
+#os.popen('cp test.txt test.txt1;rm test.txt;mv test.txt1 test.txt')
+
+subprocess.call("cp test.txt test.txt1;rm test.txt;mv test.txt1 test.txt", shell=True)
+
 a = 'test.txt'
 a_file = filedate.File(a)
 
