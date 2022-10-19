@@ -2,6 +2,7 @@ import filedate
 import os
 import time
 import subprocess
+import random
 
 # changes created and birth time
 # gets current directory
@@ -21,8 +22,10 @@ for file in files:
     a_file = filedate.File(filename)
     # changes modify and access
     a_file.set(
-        modified='1999.01.01 13:00:00',
-        accessed='1999.01.01 13:00:00'
+        modified = str(random.randint(1902, 2445)) + '.' + str(random.randint(1,12)) + '.' + str(random.randint(1,31)) + 
+	    ' ' + str(random.randint(0,23)) + ':' + str(random.randint(0,59)) + ':' + str(random.randint(0,59)),
+	    accessed = str(random.randint(1902, 2445)) + '.' + str(random.randint(1,12)) + '.' + str(random.randint(1,31)) + 
+	    ' ' + str(random.randint(0,23)) + ':' + str(random.randint(0,59)) + ':' + str(random.randint(0,59))
     )
     after = filedate.File(filename)
     print(after.get())
