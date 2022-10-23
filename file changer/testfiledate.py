@@ -57,7 +57,7 @@ elif userinput == '2':
 				path = os.path.join(root,directory)
 				#change the directory to targeted directory before changing time stamps
 				os.chdir(path)
-				changeTimeStamps(
+				changeTimeStamps()
 				#Exit program here so that does not exist line isnt printed.
 				exit()
 				
