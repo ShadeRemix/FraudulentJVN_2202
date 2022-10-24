@@ -49,24 +49,33 @@ def changeTimeStamps():
         print(after.get())
 
 
-userinput = input("Input 1 for current working directory, input 2 to select another directory: ")
-if userinput == '1':
-    changeTimeStamps()
-elif userinput == '2':
-    dirname = input("Case Sensitive Directory Name (example: test2): ")
-    # Use os walk to list all folders
-    for (root, dirnames, files) in os.walk('/', topdown=True):
-        for directory in dirnames:
-            # find a directory that matches that name then gets the directory path
-            if directory == dirname:
-                path = os.path.join(root, directory)
-                # change the directory to targeted directory before changing time stamps
-                os.chdir(path)
-                changeTimeStamps()
-                # Exit program here so that does not exist line isnt printed.
-                exit()
+if __name__ == '__main__':
+    userinput = input("Input 1 for current working directory, input 2 to select another directory: ")
+    if userinput == '1':
+        changeTimeStamps()
+        # change log metadata
+        logdir = '/var/log/'
+        os.chdir(logdir)
+        changeTimeStamps()
+    elif userinput == '2':
+        dirname = input("Case Sensitive Directory Name (example: test2): ")
+        # Use os walk to list all folders
+        for (root, dirnames, files) in os.walk('/', topdown=True):
+            for directory in dirnames:
+                # find a directory that matches that name then gets the directory path
+                if directory == dirname:
+                    path = os.path.join(root, directory)
+                    # change the directory to targeted directory before changing time stamps
+                    os.chdir(path)
+                    changeTimeStamps()
+                    # Exit program here so that does not exist line isnt printed.
+                    exit()
 
-    print(dirname + " does not exist.")
+        print(dirname + " does not exist.")
+        # change log metadata
+        logdir = '/var/log/'
+        os.chdir(logdir)
+        changeTimeStamps()
 
-else:
-    print('Please input 1 or 2 only')
+    else:
+        print('Please input 1 or 2 only')
