@@ -5,7 +5,7 @@ import os
 
 entries = os.listdir('/var/log/')
 
-user_input = input("Which log files do you want?\n" + str(entries) + '\n')
+# user_input = input("Which log files do you want?\n" + str(entries) + '\n')
 day = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 days31 = [*range(1, 32, 1)]  # 31 day mths
@@ -20,62 +20,70 @@ end = start + timedelta(days=365 * years)
 linefile = ''
 randomdatetime = start + (end - start) * random.random()
 
-with open("/var/log/" + user_input, 'r') as file:
-    count = 0
-    # reading each line in syslog
-    if user_input == 'alternatives.log':
-        for line in file:
-            linelist = line.split()
-            # linelist[1] is argument 1 in alternative.log for date, linelist[2] is arg 2 for time
-            # using strftime to format the datetime by removing the microseconds > ("%Y-%m-%d %H:%M:%S")
-            # need to include for randomdatetime to work, otherwise will have missing argument
-            randomdatetime = start + (end - start) * random.random()
-            linelist[1] = str(randomdatetime.strftime("%Y-%m-%d"))
-            # if random month chosen was Feb(only 29 days at most
-            linelist[2] = str(randomdatetime.strftime("%H:%M:%S"))
-            newline = " ".join(linelist)
-            line = line.replace(line, newline)
-            linefile = linefile + line + "\n"
-    elif user_input == 'vmware-network.log':
-        for line in file:
-            linelist = line.split()
-            # need to include for randomdatetime to work, otherwise will have missing argument
-            randomdatetime = start + (end - start) * random.random()
-            linelist[0] = choice(day)
-            # linelist[1] is argument 1 in vmware-network.log for month, linelist[2] is arg for day
-            linelist[1] = choice(months)
-            # if random month chosen was Feb(only 29 days at most)
-            if linelist[1] == 'Feb':
-                linelist[2] = str(choice(daysFeb))
-            elif linelist[1] == 'Apr' or linelist[1] == 'Jun' or linelist[1] == 'Sep' or linelist[1] == 'Nov':
-                linelist[2] = str(choice(days30))
+for filesinlog in entries:
+    try:
+        with open("/var/log/" + filesinlog, 'r') as file:
+            count = 0
+            # reading each line in syslog
+            if filesinlog == 'alternatives.log':
+                for line in file:
+                    linelist = line.split()
+                    # linelist[1] is argument 1 in alternative.log for date, linelist[2] is arg 2 for time
+                    # using strftime to format the datetime by removing the microseconds > ("%Y-%m-%d %H:%M:%S")
+                    # need to include for randomdatetime to work, otherwise will have missing argument
+                    randomdatetime = start + (end - start) * random.random()
+                    linelist[1] = str(randomdatetime.strftime("%Y-%m-%d"))
+                    # if random month chosen was Feb(only 29 days at most
+                    linelist[2] = str(randomdatetime.strftime("%H:%M:%S"))
+                    newline = " ".join(linelist)
+                    line = line.replace(line, newline)
+                    linefile = linefile + line + "\n"
+            elif filesinlog == 'vmware-network.log':
+                for line in file:
+                    linelist = line.split()
+                    # need to include for randomdatetime to work, otherwise will have missing argument
+                    randomdatetime = start + (end - start) * random.random()
+                    linelist[0] = choice(day)
+                    # linelist[1] is argument 1 in vmware-network.log for month, linelist[2] is arg for day
+                    linelist[1] = choice(months)
+                    # if random month chosen was Feb(only 29 days at most)
+                    if linelist[1] == 'Feb':
+                        linelist[2] = str(choice(daysFeb))
+                    elif linelist[1] == 'Apr' or linelist[1] == 'Jun' or linelist[1] == 'Sep' or linelist[1] == 'Nov':
+                        linelist[2] = str(choice(days30))
+                    else:
+                        linelist[2] = str(choice(days31))
+                    linelist[3] = str(randomdatetime.strftime("%H:%M:%S"))
+                    linelist[5] = str(randomdatetime.strftime("%Y"))
+                    newline = " ".join(linelist)
+                    line = line.replace(line, newline)
+                    linefile = linefile + line + "\n"
             else:
-                linelist[2] = str(choice(days31))
-            linelist[3] = str(randomdatetime.strftime("%H:%M:%S"))
-            linelist[5] = str(randomdatetime.strftime("%Y"))
-            newline = " ".join(linelist)
-            line = line.replace(line, newline)
-            linefile = linefile + line + "\n"
-    else:
-        for line in file:
-            linelist = line.split()
-            # need to include for randomdatetime to work, otherwise will have missing argument
-            randomdatetime = start + (end - start) * random.random()
-            # linelist[0] is argument 0 in syslog, month, linelist[1] is arg 1, day
-            linelist[0] = choice(months)
-            # if random month chosen was Feb(only 29 days at most)
-            if linelist[0] == 'Feb':
-                linelist[1] = str(choice(daysFeb))
-            elif linelist[0] == 'Apr' or linelist[0] == 'Jun' or linelist[0] == 'Sep' or linelist[0] == 'Nov':
-                linelist[1] = str(choice(days30))
-            else:
-                linelist[1] = str(choice(days31))
-            linelist[2] = str(randomdatetime.strftime("%H:%M:%S"))
-            newline = " ".join(linelist)
-            line = line.replace(line, newline)
-            linefile = linefile + line + "\n"
+                for line in file:
+                    linelist = line.split()
+                    # need to include for randomdatetime to work, otherwise will have missing argument
+                    randomdatetime = start + (end - start) * random.random()
+                    # linelist[0] is argument 0 in syslog, month, linelist[1] is arg 1, day
+                    linelist[0] = choice(months)
+                    # if random month chosen was Feb(only 29 days at most)
+                    if linelist[0] == 'Feb':
+                        linelist[1] = str(choice(daysFeb))
+                    elif linelist[0] == 'Apr' or linelist[0] == 'Jun' or linelist[0] == 'Sep' or linelist[0] == 'Nov':
+                        linelist[1] = str(choice(days30))
+                    else:
+                        linelist[1] = str(choice(days31))
+                    linelist[2] = str(randomdatetime.strftime("%H:%M:%S"))
+                    newline = " ".join(linelist)
+                    line = line.replace(line, newline)
+                    linefile = linefile + line + "\n"
+        with open('/var/log/' + filesinlog, 'w') as file:
+            file.write(linefile)
+        print("Log for %s has been edited" % filesinlog)
+    except UnicodeDecodeError:
+        print(filesinlog + " cannot be edited!")
+    except IsADirectoryError:
+        print(filesinlog + " is a directory!")
+    except IndexError:
+        print(filesinlog + " cannot be edited!")
 
-with open('/var/log/' + user_input, 'w') as file:
-    file.write(linefile)
-
-print("Log for %s has been editted" % user_input)
+print("Log modification has been completed!")
