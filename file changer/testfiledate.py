@@ -21,32 +21,63 @@ def randDate():
 
 
 def changeTimeStamps():
-    # changes created and birth time
-    # gets current directory
-    cwd = os.getcwd()
-    # gets list of files in current directory
-    files = os.listdir(cwd)
-    print(cwd)
-    print(files)
-    # Changes time of all files in list
+	# changes created and birth time
+	# gets current directory
+	cwd = os.getcwd()
+	# gets list of files in current directory
+	files = []
+	for path in os.listdir(cwd):
+		if os.path.isfile(os.path.join(cwd,path)):
+			files.append(path)
+	print(cwd)
+	print(files)
+	# Changes time of all files in list
 
-    for file in files:
-        filename = file
-        # calling cp to copy file to file1
-        # then shred file
-        # then mv file1 to file
-        subprocess.call("cp " + filename + " " + filename + "1;shred " + filename + ";mv " + filename + "1 " + filename,
-                        shell=True)
-        a_file = filedate.File(filename)
-        # changes modify and access
-        a_file.set(
-            modified=randDate() + ' ' + str(random.randint(0, 23)) + ':' + str(random.randint(0, 59)) + ':' + str(
-                random.randint(0, 59)),
-            accessed=randDate() + ' ' + str(random.randint(0, 23)) + ':' + str(random.randint(0, 59)) + ':' + str(
-                random.randint(0, 59))
-        )
-        after = filedate.File(filename)
-        print(after.get())
+	for file in files:
+	    filename = file
+	    # calling cp to copy file to file1
+	    # then shred file
+	    # then mv file1 to file
+	    subprocess.call("cp " + filename + " " + filename + "1;shred " + filename + ";mv " + filename + "1 " + filename,
+		            shell=True)
+	    a_file = filedate.File(filename)
+	    # changes modify and access
+	    a_file.set(
+		modified = randDate() + ' ' + str(random.randint(0,23)) + ':' + str(random.randint(0,59)) + ':' + str(random.randint(0,59)),
+		    accessed = randDate() + ' ' + str(random.randint(0,23)) + ':' + str(random.randint(0,59)) + ':' + str(random.randint(0,59))
+	    )
+	    after = filedate.File(filename)
+	    print(after.get())
+	#Get all subdirectories
+    for (root,dirnames,files) in os.walk(cwd, topdown=True):
+        #loop through a list of all subdirectory names
+		for directory in dirnames:
+			currentfiles = []
+            #get the absolute path of current subdirectory in the for loop
+			path = os.path.join(root,directory)
+            #change to the current subdirectory in the loop
+			os.chdir(path)
+			for p in os.listdir(path):
+				if os.path.isfile(os.path.join(path,p)):
+					currentfiles.append(p)
+			print(path)
+			print(currentfiles)
+			for file in currentfiles:
+			    filename = file
+			    # calling cp to copy file to file1
+			    # then shred file
+			    # then mv file1 to file
+			    subprocess.call("cp " + filename + " " + filename + "1;shred " + filename + ";mv " + filename + "1 " + filename,
+					    shell=True)
+			    a_file = filedate.File(filename)
+			    # changes modify and access
+			    a_file.set(
+				modified = randDate() + ' ' + str(random.randint(0,23)) + ':' + str(random.randint(0,59)) + ':' + str(random.randint(0,59)),
+				    accessed = randDate() + ' ' + str(random.randint(0,23)) + ':' + str(random.randint(0,59)) + ':' + str(random.randint(0,59))
+			    )
+                after = filedate.File(filename)
+			    print(after.get())
+	
 
 
 if __name__ == '__main__':
