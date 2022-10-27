@@ -4,14 +4,12 @@ from datetime import datetime, timedelta
 import os
 
 entries = os.listdir('/var/log/')
-
 # user_input = input("Which log files do you want?\n" + str(entries) + '\n')
 day = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 days31 = [*range(1, 32, 1)]  # 31 day mths
 days30 = [*range(1, 31, 1)]  # 30 day mths
 daysFeb = [*range(1, 30, 1)]  # february
-
 min_year = 2000
 max_year = datetime.now().year
 start = datetime(min_year, 1, 1, 00, 00, 00)
@@ -21,6 +19,7 @@ linefile = ''
 randomdatetime = start + (end - start) * random.random()
 
 for filesinlog in entries:
+    linefile = ''
     try:
         with open("/var/log/" + filesinlog, 'r') as file:
             count = 0
