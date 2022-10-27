@@ -81,7 +81,37 @@ for filesinlog in entries:
     except UnicodeDecodeError:
         print(filesinlog + " cannot be edited!")
     except IsADirectoryError:
-        print(filesinlog + " is a directory!")
+        print(filesinlog + " is a directory! Going into Subdir!")
+        sub_dir_file = os.listdir("/var/log/" + filesinlog)
+        for file_in_subdir in sub_dir_file:
+            try:
+                with open("/var/log/" + filesinlog + "/" + file_in_subdir, 'r') as sub_file:
+                    for line in sub_file:
+                        linelist = line.split()
+                        # need to include for randomdatetime to work, otherwise will have missing argument
+                        randomdatetime = start + (end - start) * random.random()
+                        # linelist[0] is argument 0 in syslog, month, linelist[1] is arg 1, day
+                        linelist[0] = choice(months)
+                        # if random month chosen was Feb(only 29 days at most)
+                        if linelist[0] == 'Feb':
+                            linelist[1] = str(choice(daysFeb))
+                        elif linelist[0] == 'Apr' or linelist[0] == 'Jun' or linelist[0] == 'Sep' or linelist[0] == 'Nov':
+                            linelist[1] = str(choice(days30))
+                        else:
+                            linelist[1] = str(choice(days31))
+                        linelist[2] = str(randomdatetime.strftime("%H:%M:%S"))
+                        newline = " ".join(linelist)
+                        line = line.replace(line, newline)
+                        linefile = linefile + line + "\n"
+                with open('/var/log/' + filesinlog + '/' + file_in_subdir, 'w') as file:
+                    file.write(linefile)
+                print("Log for %s has been edited in" % file_in_subdir)
+            except IndexError:
+                print(file_in_subdir + " in directory " + filesinlog + " cannot be edited!")
+            except UnicodeDecodeError:
+                print(file_in_subdir + " in directory " + filesinlog + " cannot be edited!")
+            except IsADirectoryError:
+                print(file_in_subdir + " is a directory in " + filesinlog + " too deep for any valuable logs!")
     except IndexError:
         print(filesinlog + " cannot be edited!")
 
