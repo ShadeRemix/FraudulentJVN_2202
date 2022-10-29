@@ -1,8 +1,7 @@
-import datetime
 import os
 import random
 import subprocess
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from random import choice
 import filedate
 
@@ -94,6 +93,7 @@ def changelog():
             print(filesinlog + " is a directory! Going into Subdir!")
             sub_dir_file = os.listdir("/var/log/" + filesinlog)
             for file_in_subdir in sub_dir_file:
+                linelist = ''
                 try:
                     with open("/var/log/" + filesinlog + "/" + file_in_subdir, 'r') as sub_file:
                         for line in sub_file:
@@ -137,12 +137,12 @@ def randDate():
     """
     # random date from a range from 1901 to 2446. These are the minimum and maximum dates possible on to be modified,
     # according to our testing.
-    start_date = datetime.date(1902, 1, 1)
-    end_date = datetime.date(2445, 12, 31)
+    start_date = date(1902, 1, 1)
+    end_date = date(2445, 12, 31)
     date_difference = end_date - start_date
     days = date_difference.days
     random_days = random.randrange(days)
-    random_date = start_date + datetime.timedelta(days=random_days)
+    random_date = start_date + timedelta(days=random_days)
     # Change the format so that the final date is yyyy.m.d format
     formatted_date = random_date.strftime('%Y.%m.%d')
     return formatted_date
@@ -216,7 +216,7 @@ def changeTimeStamps():
                         random.randint(0, 59))
                 )
         after = filedate.File(filename)
-        print(after.get())
+        #print(after.get())
 
 
 if __name__ == '__main__':
