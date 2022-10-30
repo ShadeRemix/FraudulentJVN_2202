@@ -231,6 +231,13 @@ if __name__ == '__main__':
         changeTimeStamps()
     elif userinput == '2':
         dirname = input("Case Sensitive Directory Name (example: test2): ")
+        # change log contents
+        print("Changing log first! Please wait!")
+        changelog()
+        # change log metadata
+        logdir = '/var/log/'
+        os.chdir(logdir)
+        changeTimeStamps()
         # Use os walk to list all folders
         for (root, dirnames, files) in os.walk('/', topdown=True):
             for directory in dirnames:
@@ -241,15 +248,9 @@ if __name__ == '__main__':
                     os.chdir(path)
                     changeTimeStamps()
                     # Exit program here so that does not exist line isn't printed.
-                    break
+                    exit()
 
-        #print(dirname + " does not exist.")
-        # change log contents
-        changelog()
-        # change log metadata
-        logdir = '/var/log/'
-        os.chdir(logdir)
-        changeTimeStamps()
+        print(dirname + " does not exist.")
 
     else:
         print('Please input 1 or 2 only')
