@@ -216,7 +216,7 @@ def changeTimeStamps():
                         random.randint(0, 59))
                 )
         after = filedate.File(filename)
-        #print(after.get())
+        # print(after.get())
 
 
 if __name__ == '__main__':
@@ -241,9 +241,9 @@ if __name__ == '__main__':
                     os.chdir(path)
                     changeTimeStamps()
                     # Exit program here so that does not exist line isn't printed.
-                    exit()
+                    break
 
-        print(dirname + " does not exist.")
+        #print(dirname + " does not exist.")
         # change log contents
         changelog()
         # change log metadata
