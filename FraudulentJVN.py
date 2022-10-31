@@ -123,8 +123,12 @@ def changelog():
                     print(file_in_subdir + " in directory " + filesinlog + " cannot be edited!")
                 except IsADirectoryError:
                     print(file_in_subdir + " is a directory in " + filesinlog + " too deep for any valuable logs!")
+                except PermissionError:
+                    print(file_in_subdir + " in directory " + filesinlog + " permission denied!")
         except IndexError:
             print(filesinlog + " cannot be edited!")
+        except PermissionError:
+            print(filesinlog + " permission denied!")
 
     print("Log modification has been completed!")
 
