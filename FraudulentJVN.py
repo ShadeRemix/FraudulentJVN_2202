@@ -1,3 +1,6 @@
+"""
+This program is created By Zi Ping, Wei Jie, Javen and Jevan for SIT ICT 2202 Assignment 1
+"""
 import os
 import random
 import subprocess
