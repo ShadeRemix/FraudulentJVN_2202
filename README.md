@@ -1,5 +1,7 @@
 # User Manual
 
+### Authors: Wei Jie, Zi Ping, Jevan, Javen
+
 Installation:
 This program uses the filedate module, make sure it is installed before running the program.
 
