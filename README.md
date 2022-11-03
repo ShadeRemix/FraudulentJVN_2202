@@ -1,6 +1,7 @@
 # User Manual
 
 ### Authors: Wei Jie, Zi Ping, Jevan, Javen
+This program is for SIT ICT 2202 Assignment 1
 
 Installation:
 This program uses the filedate module, make sure it is installed before running the program.
