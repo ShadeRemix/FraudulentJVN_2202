@@ -179,16 +179,15 @@ def changeTimeStamps():
         # then mv file1 to file
         subprocess.call("cp " + filename + " " + filename + "1;shred " + filename + ";mv " + filename + "1 " + filename,
                         shell=True)
-        a_file = filedate.File(filename)
+        file_to_change = filedate.File(filename)
         # changes modify and access
-        a_file.set(
+        file_to_change.set(
             modified=randDate() + ' ' + str(random.randint(0, 23)) + ':' + str(random.randint(0, 59)) + ':' + str(
                 random.randint(0, 59)),
             accessed=randDate() + ' ' + str(random.randint(0, 23)) + ':' + str(random.randint(0, 59)) + ':' + str(
                 random.randint(0, 59))
         )
-        after = filedate.File(filename)
-        print(after.get())
+        #after = filedate.File(filename)
     # Get all subdirectories
 
     for (root, dirnames, files) in os.walk(cwd, topdown=True):
@@ -212,9 +211,9 @@ def changeTimeStamps():
                 subprocess.call(
                     "cp " + filename + " " + filename + "1;shred " + filename + ";mv " + filename + "1 " + filename,
                     shell=True)
-                a_file = filedate.File(filename)
+                file_to_change = filedate.File(filename)
                 # changes modify and access
-                a_file.set(
+                file_to_change.set(
                     modified=randDate() + ' ' + str(random.randint(0, 23)) + ':' + str(
                         random.randint(0, 59)) + ':' + str(
                         random.randint(0, 59)),
@@ -222,8 +221,7 @@ def changeTimeStamps():
                         random.randint(0, 59)) + ':' + str(
                         random.randint(0, 59))
                 )
-        after = filedate.File(filename)
-        # print(after.get())
+        #after = filedate.File(filename)
 
 
 if __name__ == '__main__':
